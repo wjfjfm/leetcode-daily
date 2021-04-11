@@ -1,2 +1,6 @@
-*.out
+*.out*
 *.sh
+__pycache__
+*.swp
+*.o
+.vscode
