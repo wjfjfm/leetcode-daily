@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstring>
 using namespace std;
 class Solution {
 private:
@@ -24,34 +25,34 @@ private:
             v->push_back(i);
             v->push_back(i-1);
         }
-        delete v;
-        delete n;
     }
 public:
     int minCut(string s) {
         N = s.size();
         Next.resize(N);
+        bool visited[N+1];
         for(int i=0; i<N; i++) {
             Next[i].push_back(i+1);
         }
+        memset(visited, 0, (N+1) * sizeof(bool));
         next(s);
 
-        auto cur = new unordered_set<int>();
-        auto next = new unordered_set<int>();
+        auto cur = new vector<int>();
+        auto next = new vector<int>();
 
-        cur->insert(0);
+        cur->push_back(0);
 
         int result = 0;
 
         while(true) {
             for(int c: *cur) {
                 for(int to: Next[c]) {
+                    if (visited[to]) continue;
+                    visited[to] = true;
                     if (to == N) {
-                        delete cur;
-                        delete next;
                         return result;
                     }
-                    next->insert(to);
+                    next->push_back(to);
                 }
             }
             swap(cur, next);
