@@ -5,3 +5,5 @@ __pycache__
 *.o
 *.dSYM
 .vscode
+Makefile
+
