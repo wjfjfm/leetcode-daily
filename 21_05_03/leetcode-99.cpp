@@ -42,3 +42,6 @@ public:
             swap(nodes.first->val, nodes.second->val);
     }
 };
+
+int main() {
+}
