@@ -7,22 +7,42 @@ class Solution {
 public:
     string shortestPalindrome(string s) {
         const int N = s.size();
+        if (!N) return "";
+        vector<int> kmp(N);
+        int p = kmp[0] = -1;
+        for(int i=0; i<N-1; i++) {
+            while(p >= 0 && s[i] != s[p]) p = kmp[p];
+            kmp[i+1] = ++p;
+        }
 
-        vector<int> kmp(N, -1);
         for(int i=1; i<N; i++) {
-            int j = kmp[i-1];
-            while(j >=0 && s[i] != s[j+1]) {
+            int j = kmp[i];
+            while(j >= 0 && s[i] == s[j]) {
                 j = kmp[j];
             }
-            if (s[j+1] == s[i]) {
-                kmp[i] = j+1;
+            kmp[i] = j;
+        }
+        int k = 0;
+        int i = N-1;
+
+        while(i > k) {
+            if (s[i] == s[k]) {
+                k++;
+                i--;
+            }
+            else {
+                k = kmp[k];
+                if (k < 0) {
+                    k = 0;
+                    i--;
+                }
             }
         }
-        for(int i=1; i<N; i++) {
-            
-        }
-        for(int i: kmp) cout << i << ' ';
-        return "";
+        string result = "";
+        for(int j = N-1; j>i+k; j--) result += s[j];
+        result += s;
+
+        return result;
     }
 };
 
